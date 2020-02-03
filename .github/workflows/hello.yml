@@ -1,21 +1,21 @@
-name: hello
+# name: hello
 
-on: [push, repository_dispatch]
+# on: [push, repository_dispatch]
 
-jobs:
-  build:
-    runs-on: ubuntu-latest
-    steps:
-      - name: Step that prints name of pull request's base branch
-        uses: nelonoel/branch-name@v1
-        run: |
-          echo "Pull request's base branch is: ${BRANCH_NAME}"
-        env:
-          BASE_BRANCH: ${{ github.ref }}
-      # - uses: actions/checkout@v2
-      # - name: Run a one-line script
-      #   run: echo Hello, world!
-      # - name: Run a multi-line script
-      #   run: |
-      #     echo Add other actions to build,
-      #     echo test, and deploy your project.
+# jobs:
+#   build:
+#     runs-on: ubuntu-latest
+#     steps:
+#       - name: Step that prints name of pull request's base branch
+#         uses: nelonoel/branch-name@v1
+#         run: |
+#           echo "Pull request's base branch is: ${BRANCH_NAME}"
+#         env:
+#           BASE_BRANCH: ${{ github.ref }}
+#       # - uses: actions/checkout@v2
+#       # - name: Run a one-line script
+#       #   run: echo Hello, world!
+#       # - name: Run a multi-line script
+#       #   run: |
+#       #     echo Add other actions to build,
+#       #     echo test, and deploy your project.
