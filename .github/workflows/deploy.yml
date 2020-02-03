@@ -18,10 +18,12 @@ jobs:
       - name: Build site
         run: yarn build
       - name: Deploy to surge
-        run: |
-          yarn surge whoami
-          yarn surge public jc-ga.surge.sh
-
+      - uses: dswistowski/surge-sh-action@v1
+        with:
+          domain: "jc-ga.surge.sh"
+          project: "public"
+          login: ${{ secrets.surge_login }}
+          token: ${{ secrets.surge_token }}
 #     - name: Run a multi-line script
 #       run: |
 #         echo Add other actions to build,
