@@ -7,8 +7,9 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Step that prints name of pull request's base branch
+        uses: nelonoel/branch-name@v1
         run: |
-          echo "Pull request's base branch is: ${BASE_BRANCH}"
+          echo "Pull request's base branch is: ${BRANCH_NAME}"
         env:
           BASE_BRANCH: ${{ github.ref }}
       # - uses: actions/checkout@v2
