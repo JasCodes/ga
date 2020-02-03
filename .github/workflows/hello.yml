@@ -1,13 +1,16 @@
 name: hello
 
-on: [repository_dispatch]
+on: [push, repository_dispatch]
 
 jobs:
   build:
     runs-on: ubuntu-latest
     steps:
-      - name: Test
-        run: echo ${{ github.base_ref }}
+      - name: Step that prints name of pull request's base branch
+        run: |
+          echo "Pull request's base branch is: ${BASE_BRANCH}"
+        env:
+          BASE_BRANCH: ${{ github.base_ref }}
       # - uses: actions/checkout@v2
       # - name: Run a one-line script
       #   run: echo Hello, world!
