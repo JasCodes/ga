@@ -1,6 +1,6 @@
 name: hello
 
-on: [push,repository_dispatch]
+on: [repository_dispatch]
 
 jobs:
   build:
