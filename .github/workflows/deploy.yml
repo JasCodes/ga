@@ -6,15 +6,22 @@ jobs:
   build:
     runs-on: ubuntu-latest
     steps:
-    - uses: actions/checkout@v2
-#     - uses: actions/cache@v1
-#       with:
-#         path: ${{ steps.yarn-cache.outputs.dir }}
-#         key: ${{ runner.os }}-yarn-${{ hashFiles('**/yarn.lock') }}
-#         restore-keys: |
-#           ${{ runner.os }}-yarn-
-    - name: Pull packages
-      run: yarn
+      - uses: actions/checkout@v2
+      #     - uses: actions/cache@v1
+      #       with:
+      #         path: ${{ steps.yarn-cache.outputs.dir }}
+      #         key: ${{ runner.os }}-yarn-${{ hashFiles('**/yarn.lock') }}
+      #         restore-keys: |
+      #           ${{ runner.os }}-yarn-
+      - name: Pull packages
+        run: yarn
+      - name: Build site
+        run: yarn build
+      - name: Deploy to surge
+        run: |
+          yarn surge whoami
+          yarn surge public jc-ga.surge.sh
+
 #     - name: Run a multi-line script
 #       run: |
 #         echo Add other actions to build,
