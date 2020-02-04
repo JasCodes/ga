@@ -7,6 +7,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
+      - uses: nelonoel/branch-name@v1
       - name: Get yarn cache
         id: yarn-cache
         run: echo "::set-output name=dir::$(yarn cache dir)"
@@ -23,10 +24,18 @@ jobs:
       - name: Deploy to surge
         uses: dswistowski/surge-sh-action@v1
         with:
-          domain: "${{ secrets.DOMAIN_NAME }}.jas.bio"
+          domain: "${BRANCH_NAME}.${{ secrets.DOMAIN_NAME }}.jas.bio"
           project: "public"
           login: ${{ secrets.surge_login }}
           token: ${{ secrets.surge_token }}
+      - name: Deploy
+        if: ${BRANCH_NAME} == "master"
+        uses: crazy-max/ghaction-github-pages@v1
+        with:
+          target_branch: gh-pages
+          build_dir: public
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 #     - name: Run a multi-line script
 #       run: |
 #         echo Add other actions to build,
