@@ -29,7 +29,7 @@ jobs:
           login: ${{ secrets.surge_login }}
           token: ${{ secrets.surge_token }}
       - name: Deploy
-        if: ${BRANCH_NAME} == "master"
+#         if: ${BRANCH_NAME} == "master"
         uses: crazy-max/ghaction-github-pages@v1
         with:
           target_branch: gh-pages
