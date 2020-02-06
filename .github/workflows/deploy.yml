@@ -5,8 +5,8 @@ on: [push]
 jobs:
   build:
     runs-on: ubuntu-latest
-     steps:
-        - run: echo "${BRANCH_NAME}.${{ secrets.DOMAIN_NAME }}.jas.bio"
+    steps:
+      - run: echo "${BRANCH_NAME}.${{ secrets.DOMAIN_NAME }}.jas.bio"
 #       - uses: actions/checkout@v2
 #       - uses: nelonoel/branch-name@v1
 #       - name: Get yarn cache
