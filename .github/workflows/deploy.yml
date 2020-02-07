@@ -6,14 +6,15 @@ jobs:
   build:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v2
-      - shell: bash
+      - name: Setup environment variables
+        shell: bash
         run: |
           echo ::set-env name=BRANCH::$(echo "${GITHUB_REF##*/}")
           echo ::set-env name=REPOSITORY::$(echo "$GITHUB_REPOSITORY" | awk -F / '{print $2}')
           echo ::set-env name=RELEASE_BRANCH::$(echo "master")
           echo ::set-env name=PUBLISH_DIR::$(echo "public")
-          echo ::set-env name=DOMAIN::$(echo "${REPOSITORY}.jas.bio" | awk -F / '{print $2}')
+          echo ::set-env name=DOMAIN::$(echo "${REPOSITORY}.jas.bio")
+      - uses: actions/checkout@v2
       - name: Get yarn cache
         id: yarn-cache
         run: echo "::set-output name=dir::$(yarn cache dir)"
@@ -23,25 +24,19 @@ jobs:
           key: ${{ runner.os }}-yarn-${{ hashFiles('**/yarn.lock') }}
           restore-keys: |
             ${{ runner.os }}-yarn-
-      # - uses: nelonoel/branch-name@v1
-      # - run: echo ::set-env name=REPOSITORY_NAME::$(echo "$GITHUB_REPOSITORY" | awk -F / '{print $2}')
-      #   shell: bash
-      # - run: echo ::set-env name=PUBLISH_DIR::$(echo "$GITHUB_REPOSITORY" | awk -F / '{print $2}')
-      #   shell: bash
-      - run: yarn global add surge
       - name: Pull packages
         run: yarn
       - name: Build site
         run: yarn build
       - name: Deploy to surge
         if: env.BRANCH == env.RELEASE_BRANCH
-        run: surge ${PUBLISH_DIR} ${DOMAIN}
+        run: yarn surge ${PUBLISH_DIR} ${DOMAIN}
         env:
           SURGE_LOGIN: ${{secrets.SURGE_LOGIN}}
           SURGE_TOKEN: ${{secrets.SURGE_TOKEN}}
       - name: Deploy to surge
         if: env.BRANCH != env.RELEASE_BRANCH
-        run: surge ${PUBLISH_DIR} ${BRANCH}.${DOMAIN}
+        run: yarn surge ${PUBLISH_DIR} ${BRANCH}.${DOMAIN}
         env:
           SURGE_LOGIN: ${{secrets.SURGE_LOGIN}}
           SURGE_TOKEN: ${{secrets.SURGE_TOKEN}}
