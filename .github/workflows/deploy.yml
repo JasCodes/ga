@@ -15,11 +15,11 @@ jobs:
           echo ::set-env name=REPOSITORY_NAME::$(echo ${GITHUB_REPOSITORY} | awk -F / '{print $2}')
       - name: Set deploy domain
         run: |
-          if [ $BRANCH == "master"]
+          if [ $BRANCH == "master" ]
           then
-          DOMAIN = "${REPOSITORY_NAME}.jas.bio"
+            DOMAIN="${REPOSITORY_NAME}.jas.bio"
           else
-          DOMAIN = "${BRANCH}${REPOSITORY_NAME}.jas.bio"
+            DOMAIN="${BRANCH}${REPOSITORY_NAME}.jas.bio"
           fi
           echo ::set-env name=DOMAIN::$(echo "$DOMAIN" )
 
