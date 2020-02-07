@@ -8,7 +8,9 @@ jobs:
     steps:
       #       - uses: actions/checkout@v2
       - uses: nelonoel/branch-name@v1
-      - run: echo "${BRANCH_NAME}.${{ secrets.DOMAIN_NAME }}.jas.bio"
+      - run: echo "${BRANCH_NAME}.${DOMAIN_NAME}.jas.bio"
+        env:
+          DOMAIN_NAME: ${{ secrets.DOMAIN_NAME }}
 #       - name: Get yarn cache
 #         id: yarn-cache
 #         run: echo "::set-output name=dir::$(yarn cache dir)"
