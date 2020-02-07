@@ -34,13 +34,13 @@ jobs:
       - name: Build site
         run: yarn build
       - name: Deploy to surge
-        if: ${BRANCH} == ${RELEASE_BRANCH}
+        if: env.BRANCH == env.RELEASE_BRANCH
         run: surge ${PUBLISH_DIR} ${DOMAIN}
         env:
           SURGE_LOGIN: ${{secrets.SURGE_LOGIN}}
           SURGE_TOKEN: ${{secrets.SURGE_TOKEN}}
       - name: Deploy to surge
-        if: ${BRANCH} != ${RELEASE_BRANCH}
+        if: env.BRANCH != env.RELEASE_BRANCH
         run: surge ${PUBLISH_DIR} ${BRANCH}.${DOMAIN}
         env:
           SURGE_LOGIN: ${{secrets.SURGE_LOGIN}}
