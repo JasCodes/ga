@@ -13,6 +13,7 @@ jobs:
       - name: Setup environment variables
         shell: bash
         run: |
+          echo $GITHUB_EVENT_NAME
           echo ::set-env name=BRANCH::$(echo "${GITHUB_REF##*/}")
           echo ::set-env name=RELEASE_BRANCH::$(echo "master")
           echo ::set-env name=PUBLISH_DIR::$(echo "public")
