@@ -24,15 +24,18 @@ jobs:
       - name: Build site
         run: yarn build
       - name: Deploy to surge
-        # run: yarn deploy
-        uses: dswistowski/surge-sh-action@v1
-        with:
-          domain: ${DOMAIN}
-          project: "public"
-          login: ${{ secrets.surge_login }}
-          token: ${{ secrets.surge_token }}
+        run: yarn deploy
         env:
-          DOMAIN: "${BRANCH_NAME}.ga.jas.bio"
+          SURGE_LOGIN: ${{secrets.SURGE_LOGIN}}
+          SURGE_TOKEN: ${{secrets.SURGE_TOKEN}}
+        # uses: dswistowski/surge-sh-action@v1
+        # with:
+        #   domain: ${DOMAIN}
+        #   project: "public"
+        #   login: ${{ secrets.surge_login }}
+        #   token: ${{ secrets.surge_token }}
+        # env:
+        #   DOMAIN: "${BRANCH_NAME}.ga.jas.bio"
       # - name: Deploy
       # domain: "${BRANCH_NAME}.ga.jas.bio"
       #   if: ${BRANCH_NAME} == "master"
