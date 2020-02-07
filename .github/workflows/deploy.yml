@@ -13,8 +13,6 @@ jobs:
       - name: Setup environment variables
         shell: bash
         run: |
-          echo $GITHUB_EVENT_NAME
-          echo ${{ github.event.number }}
           echo ::set-env name=BRANCH::$(echo "${GITHUB_REF##*/}")
           echo ::set-env name=RELEASE_BRANCH::$(echo "master")
           echo ::set-env name=PUBLISH_DIR::$(echo "public")
@@ -24,6 +22,8 @@ jobs:
           if [ $BRANCH == "master" ]
           then
             DOMAIN="${REPOSITORY_NAME}.jas.bio"
+          else if [ $GITHUB_EVENT_NAME == "pull_request" ]
+            DOMAIN="pr-${{ github.event.number }}.jas.bio"
           else
             DOMAIN="${BRANCH}.${REPOSITORY_NAME}.jas.bio"
           fi
