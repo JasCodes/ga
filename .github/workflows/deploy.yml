@@ -26,7 +26,7 @@ jobs:
       - name: Deploy to surge
         uses: dswistowski/surge-sh-action@v1
         with:
-          domain: "${BRANCH_NAME}.${REPOSITORY_NAME}.jas.bio"
+          domain: "${BRANCH_NAME}.ga.jas.bio"
           project: "public"
           login: ${{ secrets.surge_login }}
           token: ${{ secrets.surge_token }}
