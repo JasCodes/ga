@@ -12,8 +12,16 @@ jobs:
           echo ::set-env name=BRANCH::$(echo "${GITHUB_REF##*/}")
           echo ::set-env name=RELEASE_BRANCH::$(echo "master")
           echo ::set-env name=PUBLISH_DIR::$(echo "public")
-          REPOSITORY_NAME=$(echo ${GITHUB_REPOSITORY} | awk -F / '{print $2}')
-          echo ::set-env name=DOMAIN::$(echo "${REPOSITORY_NAME}.jas.bio" )
+          echo ::set-env name=REPOSITORY_NAME::$(echo ${GITHUB_REPOSITORY} | awk -F / '{print $2}')
+      - name: Set deploy domain
+        run: |
+          if [ $BRANCH == "master"]
+          DOMAIN = "${REPOSITORY_NAME}.jas.bio"
+          else
+          DOMAIN = "${BRANCH}${REPOSITORY_NAME}.jas.bio"
+          fi
+          echo ::set-env name=DOMAIN::$(echo "$DOMAIN" )
+
       - uses: actions/checkout@v2
       - name: Get yarn cache
         id: yarn-cache
