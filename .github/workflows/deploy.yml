@@ -37,32 +37,8 @@ jobs:
         run: yarn
       - name: Build site
         run: yarn build
-      - if: env.BRANCH == env.RELEASE_BRANCH
-        name: Deploying to ${DOMAIN} ${{env.DOMAIN}}
+      - name: Deploying to ${{env.DOMAIN}}
         run: yarn surge ${PUBLISH_DIR} ${DOMAIN}
         env:
           SURGE_LOGIN: ${{secrets.SURGE_LOGIN}}
           SURGE_TOKEN: ${{secrets.SURGE_TOKEN}}
-      # - name: Deploy to surge
-      #   if: env.BRANCH != env.RELEASE_BRANCH
-      #   run: yarn surge ${PUBLISH_DIR} ${BRANCH}.${DOMAIN}
-      #   env:
-      #     SURGE_LOGIN: ${{secrets.SURGE_LOGIN}}
-      #     SURGE_TOKEN: ${{secrets.SURGE_TOKEN}}
-      # uses: dswistowski/surge-sh-action@v1
-      # with:
-      #   domain: ${DOMAIN}
-      #   project: "public"
-      #   login: ${{ secrets.surge_login }}
-      #   token: ${{ secrets.surge_token }}
-      # env:
-      #   DOMAIN: "${BRANCH_NAME}.ga.jas.bio"
-      # - name: Deploy
-      # domain: "${BRANCH_NAME}.ga.jas.bio"
-      #   if: ${BRANCH_NAME} == "master"
-      #   uses: crazy-max/ghaction-github-pages@v1
-      #   with:
-      #     target_branch: gh-pages
-      #     build_dir: public
-      #   env:
-      #     GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
