@@ -27,7 +27,7 @@ jobs:
         # run: yarn deploy
         uses: dswistowski/surge-sh-action@v1
         with:
-          domain: "master.ga.jas.bio"
+          domain: "${BRANCH_NAME}.ga.jas.bio"
           project: "public"
           login: ${{ secrets.surge_login }}
           token: ${{ secrets.surge_token }}
