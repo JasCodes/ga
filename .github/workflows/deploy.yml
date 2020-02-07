@@ -16,6 +16,7 @@ jobs:
       - name: Set deploy domain
         run: |
           if [ $BRANCH == "master"]
+          then
           DOMAIN = "${REPOSITORY_NAME}.jas.bio"
           else
           DOMAIN = "${BRANCH}${REPOSITORY_NAME}.jas.bio"
