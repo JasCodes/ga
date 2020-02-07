@@ -27,10 +27,12 @@ jobs:
         # run: yarn deploy
         uses: dswistowski/surge-sh-action@v1
         with:
-          domain: "${BRANCH_NAME}.ga.jas.bio"
+          domain: ${DOMAIN}
           project: "public"
           login: ${{ secrets.surge_login }}
           token: ${{ secrets.surge_token }}
+        env:
+          DOMAIN: "${BRANCH_NAME}.ga.jas.bio"
       # - name: Deploy
       # domain: "${BRANCH_NAME}.ga.jas.bio"
       #   if: ${BRANCH_NAME} == "master"
