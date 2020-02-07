@@ -19,14 +19,15 @@ jobs:
           echo ::set-env name=REPOSITORY_NAME::$(echo ${GITHUB_REPOSITORY} | awk -F / '{print $2}')
       - name: Set deploy domain
         run: |
+          DOMAIN_BASE="${REPOSITORY_NAME}.jas.bio"
           if [ $BRANCH == "master" ];then
-            DOMAIN="${REPOSITORY_NAME}.jas.bio"
+            DOMAIN="${DOMAIN_BASE}"
           elif [ $GITHUB_EVENT_NAME == "pull_request" ];then
-            DOMAIN="pr-${{ github.event.number }}.jas.bio"
+            DOMAIN="pr-${{ github.event.number }}.${BASE_DOMAIN}"
           else
-            DOMAIN="${BRANCH}.${REPOSITORY_NAME}.jas.bio"
+            DOMAIN="${BRANCH}.${BASE_DOMAIN}"
           fi
-          echo ::set-env name=DOMAIN::$(echo "$DOMAIN" )
+          echo ::set-env name=DOMAIN::$(echo "$DOMAIN")
 
       - uses: actions/checkout@v2
       - name: Get yarn cache
