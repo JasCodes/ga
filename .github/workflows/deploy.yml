@@ -19,10 +19,9 @@ jobs:
           echo ::set-env name=REPOSITORY_NAME::$(echo ${GITHUB_REPOSITORY} | awk -F / '{print $2}')
       - name: Set deploy domain
         run: |
-          if [ $BRANCH == "master" ]
-          then
+          if [ $BRANCH == "master" ];then
             DOMAIN="${REPOSITORY_NAME}.jas.bio"
-          elseif [ $GITHUB_EVENT_NAME == "pull_request" ]
+          elif [ $GITHUB_EVENT_NAME == "pull_request" ];then
             DOMAIN="pr-${{ github.event.number }}.jas.bio"
           else
             DOMAIN="${BRANCH}.${REPOSITORY_NAME}.jas.bio"
