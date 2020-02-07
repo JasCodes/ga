@@ -14,7 +14,7 @@ jobs:
           echo ::set-env name=RELEASE_BRANCH::$(echo "master")
           echo ::set-env name=PUBLISH_DIR::$(echo "public")
           echo "${REPOSITORY}.jas.bio"
-          echo ::set-env name=DOMAIN::$(echo "${REPOSITORY}.jas.bio")
+          echo ::set-env name=DOMAIN::$(echo "$(echo${REPOSITORY}).jas.bio")
       # - uses: actions/checkout@v2
       # - name: Get yarn cache
       #   id: yarn-cache
