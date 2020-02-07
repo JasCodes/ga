@@ -19,7 +19,7 @@ jobs:
           then
             DOMAIN="${REPOSITORY_NAME}.jas.bio"
           else
-            DOMAIN="${BRANCH}${REPOSITORY_NAME}.jas.bio"
+            DOMAIN="${BRANCH}.${REPOSITORY_NAME}.jas.bio"
           fi
           echo ::set-env name=DOMAIN::$(echo "$DOMAIN" )
 
