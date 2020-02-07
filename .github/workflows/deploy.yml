@@ -24,7 +24,7 @@ jobs:
       - name: Build site
         run: yarn build
       - name: Deploy to surge
-        run: yarn deploy
+        # run: yarn deploy
         uses: dswistowski/surge-sh-action@v1
         with:
           domain: "master.ga.jas.bio"
