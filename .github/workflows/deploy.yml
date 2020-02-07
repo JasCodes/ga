@@ -6,43 +6,33 @@ jobs:
   build:
     runs-on: ubuntu-latest
     steps:
-      # - name: Setup environment variables
-      #   shell: bash
-      #   run: |
-      #     echo ::set-env name=BRANCH::$(echo "${GITHUB_REF##*/}")
-      #     echo ::set-env name=REPOSITORY::$(echo "$GITHUB_REPOSITORY" | awk -F / '{print $2}')
-      #     echo ::set-env name=RELEASE_BRANCH::$(echo "master")
-      #     echo ::set-env name=PUBLISH_DIR::$(echo "public")
-      #     echo "${REPOSITORY}.jas.bio"
-      #     echo "$(echo ${REPOSITORY}).jas.bio"
-      #     echo ::set-env name=DOMAIN::$(echo "$(echo${REPOSITORY}).jas.bio")
-      - run: echo ::set-env name=BRANCH::$(echo "${GITHUB_REF##*/}")
-      - run: echo ::set-env name=REPOSITORY::$(echo "$GITHUB_REPOSITORY" | awk -F / '{print $2}')
-      - run: echo ::set-env name=RELEASE_BRANCH::$(echo "master")
-      - run: echo ::set-env name=PUBLISH_DIR::$(echo "public")
-      - run: echo "${REPOSITORY}.jas.bio"
-      - run: echo "$(echo ${REPOSITORY}).jas.bio"
-      - run: echo ::set-env name=DOMAIN::$(echo "$(echo${REPOSITORY}).jas.bio")
-      # - uses: actions/checkout@v2
-      # - name: Get yarn cache
-      #   id: yarn-cache
-      #   run: echo "::set-output name=dir::$(yarn cache dir)"
-      # - uses: actions/cache@v1
-      #   with:
-      #     path: ${{ steps.yarn-cache.outputs.dir }}
-      #     key: ${{ runner.os }}-yarn-${{ hashFiles('**/yarn.lock') }}
-      #     restore-keys: |
-      #       ${{ runner.os }}-yarn-
-      # - name: Pull packages
-      #   run: yarn
-      # - name: Build site
-      #   run: yarn build
-      # - name: Deploy to surge
-      #   if: env.BRANCH == env.RELEASE_BRANCH
-      #   run: yarn surge ${PUBLISH_DIR} ${DOMAIN}
-      #   env:
-      #     SURGE_LOGIN: ${{secrets.SURGE_LOGIN}}
-      #     SURGE_TOKEN: ${{secrets.SURGE_TOKEN}}
+      - name: Setup environment variables
+        shell: bash
+        run: |
+          echo ::set-env name=BRANCH::$(echo "${GITHUB_REF##*/}")
+          echo ::set-env name=RELEASE_BRANCH::$(echo "master")
+          echo ::set-env name=PUBLISH_DIR::$(echo "public")
+          echo ::set-env name=DOMAIN::$(echo "$($(echo "$GITHUB_REPOSITORY" | awk -F / '{print $2}').jas.bio")
+      - uses: actions/checkout@v2
+      - name: Get yarn cache
+        id: yarn-cache
+        run: echo "::set-output name=dir::$(yarn cache dir)"
+      - uses: actions/cache@v1
+        with:
+          path: ${{ steps.yarn-cache.outputs.dir }}
+          key: ${{ runner.os }}-yarn-${{ hashFiles('**/yarn.lock') }}
+          restore-keys: |
+            ${{ runner.os }}-yarn-
+      - name: Pull packages
+        run: yarn
+      - name: Build site
+        run: yarn build
+      - if: env.BRANCH == env.RELEASE_BRANCH
+        name: Deploying to ${DOMAIN} ${{env.DOMAIN}}
+        run: yarn surge ${PUBLISH_DIR} ${DOMAIN}
+        env:
+          SURGE_LOGIN: ${{secrets.SURGE_LOGIN}}
+          SURGE_TOKEN: ${{secrets.SURGE_TOKEN}}
       # - name: Deploy to surge
       #   if: env.BRANCH != env.RELEASE_BRANCH
       #   run: yarn surge ${PUBLISH_DIR} ${BRANCH}.${DOMAIN}
