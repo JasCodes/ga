@@ -27,8 +27,8 @@ jobs:
           else
             DOMAIN="${BRANCH}.${DOMAIN_BASE}"
           fi
+          echo "http://$DOMAIN"
           echo ::set-env name=DOMAIN::$(echo "$DOMAIN")
-
       - uses: actions/checkout@v2
       - name: Get yarn cache
         id: yarn-cache
