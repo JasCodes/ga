@@ -22,7 +22,7 @@ jobs:
           if [ $BRANCH == "master" ]
           then
             DOMAIN="${REPOSITORY_NAME}.jas.bio"
-          else if [ $GITHUB_EVENT_NAME == "pull_request" ]
+          elseif [ $GITHUB_EVENT_NAME == "pull_request" ]
             DOMAIN="pr-${{ github.event.number }}.jas.bio"
           else
             DOMAIN="${BRANCH}.${REPOSITORY_NAME}.jas.bio"
