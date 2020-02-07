@@ -43,7 +43,7 @@ jobs:
         run: yarn
       - name: Build site
         run: yarn build
-      - name: Deploying to ${{env.DOMAIN}}
+      - name: Deploying to http://${{env.DOMAIN}}
         run: yarn surge ${PUBLISH_DIR} ${DOMAIN}
         env:
           SURGE_LOGIN: ${{secrets.SURGE_LOGIN}}
