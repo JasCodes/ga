@@ -17,6 +17,9 @@ jobs:
           echo ::set-env name=RELEASE_BRANCH::$(echo "master")
           echo ::set-env name=PUBLISH_DIR::$(echo "public")
           echo ::set-env name=REPOSITORY_NAME::$(echo ${GITHUB_REPOSITORY} | awk -F / '{print $2}')
+          echo ::set-env name=DISCORD_WEBHOOK::${{ secrets.DISCORD_WEBHOOK }}
+        # env:
+        #   DISCORD_WEBHOOK: ${{ secrets.DISCORD_WEBHOOK }}
       - name: Set deploy domain
         run: |
           DOMAIN_BASE="${REPOSITORY_NAME}.jas.bio"
@@ -50,8 +53,6 @@ jobs:
           SURGE_TOKEN: ${{secrets.SURGE_TOKEN}}
       - name: Discord notification
         if: env.DISCORD_WEBHOOK != ''
-        env:
-          DISCORD_WEBHOOK: ${{ secrets.DISCORD_WEBHOOK }}
         uses: Ilshidur/action-discord@master
         with:
           args: "New deploy http://${{env.DOMAIN}} from {{ EVENT_PAYLOAD.repository.full_name }}"
