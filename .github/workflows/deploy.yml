@@ -3,8 +3,6 @@ name: Deploy
 on:
   - repository_dispatch
   - push
-  - pull_request
-  - pull_request_review
 
 jobs:
   deploy:
@@ -18,21 +16,21 @@ jobs:
           echo ::set-env name=PUBLISH_DIR::$(echo "public")
           echo ::set-env name=REPOSITORY_NAME::$(echo ${GITHUB_REPOSITORY} | awk -F / '{print $2}')
           echo ::set-env name=DISCORD_WEBHOOK::${{ secrets.DISCORD_WEBHOOK }}
-        # env:
-        #   DISCORD_WEBHOOK: ${{ secrets.DISCORD_WEBHOOK }}
       - name: Set deploy domain
         run: |
           DOMAIN_BASE="${REPOSITORY_NAME}.jas.bio"
           if [ $BRANCH == "master" ];then
-            DOMAIN="${DOMAIN_BASE}"
-          elif [ $GITHUB_EVENT_NAME == "pull_request" ];then
-            DOMAIN="pr-${{ github.event.number }}.${DOMAIN_BASE}"
+            DOMAIN="https://${DOMAIN_BASE}"
           else
-            DOMAIN="${BRANCH}.${DOMAIN_BASE}"
+            DOMAIN="http://${BRANCH}.${DOMAIN_BASE}"
           fi
-          echo "http://$DOMAIN"
+          echo "$DOMAIN"
           echo ::set-env name=DOMAIN::$(echo "$DOMAIN")
       - uses: actions/checkout@v2
+      - name: Generate Pull Request
+        uses: vsoch/pull-request-action@master
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       - name: Get yarn cache
         id: yarn-cache
         run: echo "::set-output name=dir::$(yarn cache dir)"
@@ -46,7 +44,7 @@ jobs:
         run: yarn
       - name: Build site
         run: yarn build
-      - name: Deploying to http://${{env.DOMAIN}}
+      - name: Deploying to ${{env.DOMAIN}}
         run: yarn surge ${PUBLISH_DIR} ${DOMAIN}
         env:
           SURGE_LOGIN: ${{secrets.SURGE_LOGIN}}
@@ -55,11 +53,11 @@ jobs:
         if: env.DISCORD_WEBHOOK != ''
         uses: Ilshidur/action-discord@master
         with:
-          args: "New deploy http://${{env.DOMAIN}} from {{ EVENT_PAYLOAD.repository.full_name }}"
+          args: "New deploy ${{env.DOMAIN}} from {{ EVENT_PAYLOAD.repository.full_name }}"
       - name: Comment link on PR
         if: github.event_name == 'pull_request'
         uses: unsplash/comment-on-pr@master
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
-          msg: "Deployed commit ${{ github.sha }} at http://${{env.DOMAIN}}"
+          msg: "Deployed commit ${{ github.sha }} at ${{env.DOMAIN}}"
