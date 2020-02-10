@@ -28,7 +28,7 @@ jobs:
           echo ::set-env name=DOMAIN::$(echo "$DOMAIN")
       - uses: actions/checkout@v2
       - name: Generate Pull Request
-        uses: vsoch/pull-request-action@master
+        uses: jascodes/pull-request-action@fix_auth
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       - name: Get yarn cache
