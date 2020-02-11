@@ -28,9 +28,7 @@ jobs:
           echo "$DOMAIN"
           echo ::set-env name=DOMAIN::$(echo "$DOMAIN")
       - name: Surge tearing down ${{env.DOMAIN}}
-        run: |
-          yarn global add surge
-          surge teardown ${DOMAIN}
+        run: npx surge teardown ${DOMAIN}
         env:
           SURGE_LOGIN: ${{secrets.SURGE_LOGIN}}
           SURGE_TOKEN: ${{secrets.SURGE_TOKEN}}
