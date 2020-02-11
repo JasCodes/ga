@@ -11,7 +11,9 @@ jobs:
       - name: Setup environment variables
         shell: bash
         run: |
-          echo ::set-env name=BRANCH::$(echo "${GITHUB_REF##*/}")
+          EVENT_REF=${{ github.event.ref }}
+          echo "${{ github.event }}"
+          echo ::set-env name=BRANCH::$(echo "${EVENT_REF##*/}")
           echo ::set-env name=RELEASE_BRANCH::$(echo "master")
           echo ::set-env name=REPOSITORY_NAME::$(echo ${GITHUB_REPOSITORY} | awk -F / '{print $2}')
           echo ::set-env name=DISCORD_WEBHOOK::${{ secrets.DISCORD_WEBHOOK }}
