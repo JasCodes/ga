@@ -1,7 +1,6 @@
 name: Clean
 
 on:
-  - repository_dispatch
   - delete
 
 jobs:
