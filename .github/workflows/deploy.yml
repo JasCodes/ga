@@ -28,7 +28,7 @@ jobs:
           echo ::set-env name=DOMAIN::$(echo "$DOMAIN")
       - uses: actions/checkout@v2
       - name: Generate Pull Request
-        uses: jascodes/pull-request-action@master
+        uses: jascodes/pr-branch-action@master
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       - name: Get yarn cache
@@ -55,7 +55,6 @@ jobs:
         with:
           args: "Surge deployed ${{env.DOMAIN}} from {{ EVENT_PAYLOAD.repository.full_name }}"
       - name: Comment link on PR
-        if: github.event_name == 'pull_request'
         uses: unsplash/comment-on-pr@master
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}

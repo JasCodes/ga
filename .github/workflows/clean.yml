@@ -37,7 +37,6 @@ jobs:
         with:
           args: "Surge tore down ${{env.DOMAIN}} from {{ EVENT_PAYLOAD.repository.full_name }}"
       - name: Comment link on PR
-        if: github.event_name == 'pull_request'
         uses: unsplash/comment-on-pr@master
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
