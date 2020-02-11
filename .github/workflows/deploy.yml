@@ -53,7 +53,7 @@ jobs:
         if: env.DISCORD_WEBHOOK != ''
         uses: Ilshidur/action-discord@master
         with:
-          args: "Surge deployed ${{env.DOMAIN}} from {{ EVENT_PAYLOAD.repository.full_name }}"
+          args: "Surge deployed ${{env.DOMAIN}} from https://github.com/{{ EVENT_PAYLOAD.repository.full_name }}"
       - name: Comment link on PR
         uses: unsplash/comment-on-pr@master
         env:
