@@ -4,7 +4,7 @@ on:
   - delete
 
 jobs:
-  deploy:
+  clean:
     runs-on: ubuntu-latest
     steps:
       - name: Setup environment variables
@@ -16,7 +16,7 @@ jobs:
           echo ::set-env name=RELEASE_BRANCH::$(echo "master")
           echo ::set-env name=REPOSITORY_NAME::$(echo ${GITHUB_REPOSITORY} | awk -F / '{print $2}')
           echo ::set-env name=DISCORD_WEBHOOK::${{ secrets.DISCORD_WEBHOOK }}
-      - name: Set deploy domain
+      - name: Set target domain
         run: |
           DOMAIN_BASE="${REPOSITORY_NAME}.jas.bio"
           if [ $BRANCH == "master" ];then
